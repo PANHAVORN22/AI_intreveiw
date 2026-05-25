@@ -13,23 +13,6 @@ export const metadata: Metadata = {
   title: 'InterviewAI - Technical Interview Platform',
   description: 'AI-powered technical interviews for engineering candidates',
   generator: 'AI-interview',
-  icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
-  },
   viewport: {
     width: 'device-width',
     initialScale: 1,

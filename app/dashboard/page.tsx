@@ -1,8 +1,19 @@
 import { UpcomingInterviews } from '@/components/dashboard/UpcomingInterviews';
 import { RecentActivity } from '@/components/dashboard/RecentActivity';
 import { PerformanceTrends } from '@/components/dashboard/PerformanceTrends';
+import { activityFeed, upcomingInterviews } from '@/lib/mock-data';
 
 export default function DashboardPage() {
+  const initialNow = Date.now();
+  const interviews = upcomingInterviews.map((interview) => ({
+    ...interview,
+    scheduledTime: interview.scheduledTime.toISOString(),
+  }));
+  const activities = activityFeed.map((activity) => ({
+    ...activity,
+    timestamp: activity.timestamp.toISOString(),
+  }));
+
   return (
     <div className="p-8 space-y-8">
       {/* Header */}
@@ -37,8 +48,8 @@ export default function DashboardPage() {
 
       {/* Two Column Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <UpcomingInterviews />
-        <RecentActivity />
+        <UpcomingInterviews interviews={interviews} initialNow={initialNow} />
+        <RecentActivity activities={activities} initialNow={initialNow} />
       </div>
 
       {/* Full Width Chart */}

@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { Search, X } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 
 interface ResourceFilterProps {
   onTabChange: (tab: string) => void;
@@ -19,18 +21,18 @@ export function ResourceFilter({ onTabChange, currentTab }: ResourceFilterProps)
     <div className="space-y-6">
       {/* Search Bar */}
       <div className="relative">
-        <Search className="absolute left-4 top-3 w-4 h-4 text-ai-text-muted" />
+        <Search className="absolute left-3 top-1/2 w-4 h-4 -translate-y-1/2 text-ai-text-muted" />
         <input
           type="text"
           placeholder="Search resources..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-10 pr-4 py-2 bg-ai-card-bg border border-ai-border rounded-lg text-ai-text-primary placeholder-ai-text-muted focus:border-ai-violet outline-none transition-colors"
+          className="w-full pl-9 pr-9 py-2 bg-ai-dark-bg/40 border border-ai-border rounded-lg text-ai-text-primary placeholder-ai-text-muted focus:border-ai-violet outline-none transition-colors"
         />
         {searchQuery && (
           <button
             onClick={() => setSearchQuery('')}
-            className="absolute right-3 top-3 text-ai-text-muted hover:text-ai-text-primary"
+            className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-ai-text-muted hover:text-ai-text-primary"
           >
             <X className="w-4 h-4" />
           </button>
@@ -38,15 +40,15 @@ export function ResourceFilter({ onTabChange, currentTab }: ResourceFilterProps)
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 border-b border-ai-border">
+      <div className="grid grid-cols-2 gap-2">
         {tabs.map((tab) => (
           <button
             key={tab}
             onClick={() => onTabChange(tab)}
-            className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+            className={`rounded-md px-3 py-2 text-xs font-medium transition-colors border ${
               currentTab === tab
-                ? 'border-ai-violet text-ai-violet'
-                : 'border-transparent text-ai-text-muted hover:text-ai-text-secondary'
+                ? 'border-ai-violet/50 bg-ai-violet/15 text-ai-text-primary'
+                : 'border-ai-border bg-ai-dark-bg/20 text-ai-text-muted hover:text-ai-text-secondary'
             }`}
           >
             {tab}
@@ -63,19 +65,19 @@ export function ResourceFilter({ onTabChange, currentTab }: ResourceFilterProps)
           </h4>
           <div className="space-y-2">
             {difficulties.map((difficulty) => (
-              <label
-                key={difficulty}
-                className="flex items-center gap-3 cursor-pointer group"
-              >
-                <input
-                  type="checkbox"
+              <div key={difficulty} className="flex items-center gap-3 group">
+                <Checkbox
+                  id={`difficulty-${difficulty.replace(/\s+/g, '-').toLowerCase()}`}
                   defaultChecked={difficulty === 'All Levels'}
-                  className="w-4 h-4 rounded border border-ai-border bg-ai-card-bg checked:bg-ai-violet cursor-pointer"
+                  className="border-ai-border bg-ai-dark-bg/40 shadow-none data-[state=checked]:bg-ai-violet data-[state=checked]:border-ai-violet data-[state=checked]:text-ai-text-primary"
                 />
-                <span className="text-sm text-ai-text-secondary group-hover:text-ai-text-primary transition-colors">
+                <Label
+                  htmlFor={`difficulty-${difficulty.replace(/\s+/g, '-').toLowerCase()}`}
+                  className="cursor-pointer font-normal text-ai-text-secondary group-hover:text-ai-text-primary transition-colors"
+                >
                   {difficulty}
-                </span>
-              </label>
+                </Label>
+              </div>
             ))}
           </div>
         </div>
@@ -87,19 +89,19 @@ export function ResourceFilter({ onTabChange, currentTab }: ResourceFilterProps)
           </h4>
           <div className="space-y-2">
             {languages.map((language) => (
-              <label
-                key={language}
-                className="flex items-center gap-3 cursor-pointer group"
-              >
-                <input
-                  type="checkbox"
+              <div key={language} className="flex items-center gap-3 group">
+                <Checkbox
+                  id={`language-${language.replace(/\s+/g, '-').toLowerCase()}`}
                   defaultChecked={language === 'All'}
-                  className="w-4 h-4 rounded border border-ai-border bg-ai-card-bg checked:bg-ai-violet cursor-pointer"
+                  className="border-ai-border bg-ai-dark-bg/40 shadow-none data-[state=checked]:bg-ai-violet data-[state=checked]:border-ai-violet data-[state=checked]:text-ai-text-primary"
                 />
-                <span className="text-sm text-ai-text-secondary group-hover:text-ai-text-primary transition-colors">
+                <Label
+                  htmlFor={`language-${language.replace(/\s+/g, '-').toLowerCase()}`}
+                  className="cursor-pointer font-normal text-ai-text-secondary group-hover:text-ai-text-primary transition-colors"
+                >
                   {language}
-                </span>
-              </label>
+                </Label>
+              </div>
             ))}
           </div>
         </div>

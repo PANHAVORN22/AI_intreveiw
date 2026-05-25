@@ -1,13 +1,46 @@
 'use client';
 
-import { upcomingInterviews } from '@/lib/mock-data';
+import { useEffect, useState } from 'react';
 import { Calendar, Clock, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-export function UpcomingInterviews() {
-  const getTimeRemaining = (scheduledTime: Date) => {
-    const now = new Date();
-    const diff = scheduledTime.getTime() - now.getTime();
+type UpcomingInterview = {
+  id: string;
+  candidateName: string;
+  candidateAvatar: string;
+  interviewType: string;
+  scheduledTime: string | Date;
+  difficulty: number;
+  estimatedDuration: number;
+};
+
+interface UpcomingInterviewsProps {
+  interviews?: UpcomingInterview[];
+  initialNow?: number;
+}
+
+export function UpcomingInterviews({ interviews = [], initialNow }: UpcomingInterviewsProps) {
+  const [nowMs, setNowMs] = useState<number | null>(
+    typeof initialNow === 'number' ? initialNow : null,
+  );
+
+  useEffect(() => {
+    setNowMs(Date.now());
+    const id = window.setInterval(() => setNowMs(Date.now()), 60_000);
+    return () => window.clearInterval(id);
+  }, []);
+
+  const getTimeRemaining = (scheduledTime: string | Date) => {
+    if (nowMs === null) return '...';
+
+    const scheduledMs =
+      typeof scheduledTime === 'string'
+        ? new Date(scheduledTime).getTime()
+        : scheduledTime.getTime();
+
+    if (!Number.isFinite(scheduledMs)) return 'Starting soon';
+
+    const diff = scheduledMs - nowMs;
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 
@@ -37,7 +70,7 @@ export function UpcomingInterviews() {
       </div>
 
       <div className="flex-1 overflow-y-auto space-y-3 pr-2">
-        {upcomingInterviews.map((interview) => (
+        {interviews.map((interview) => (
           <div key={interview.id} className="p-3 rounded-lg bg-ai-dark-bg border border-ai-border hover:border-ai-violet/50 transition-colors">
             <div className="flex items-start justify-between mb-2">
               <div className="flex items-center gap-2">
