@@ -1,0 +1,16 @@
+# AI-interview sandbox internal files
+__AI-interview_runtime_loader.js
+__AI-interview_devtools.tsx
+__AI-interview_jsx-dev-runtime.ts
+.snowflake/
+.AI-interview-trash/
+.vercel/
+
+# Environment variables
+.env*.local
+
+# Common ignores
+node_modules
+.next/
+.DS_Store
+.vercel
