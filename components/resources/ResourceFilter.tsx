@@ -69,7 +69,7 @@ export function ResourceFilter({ onTabChange, currentTab }: ResourceFilterProps)
                 <Checkbox
                   id={`difficulty-${difficulty.replace(/\s+/g, '-').toLowerCase()}`}
                   defaultChecked={difficulty === 'All Levels'}
-                  className="border-ai-border bg-ai-dark-bg/40 shadow-none data-[state=checked]:bg-ai-violet data-[state=checked]:border-ai-violet data-[state=checked]:text-ai-text-primary"
+                  className="shadow-none"
                 />
                 <Label
                   htmlFor={`difficulty-${difficulty.replace(/\s+/g, '-').toLowerCase()}`}
@@ -93,7 +93,7 @@ export function ResourceFilter({ onTabChange, currentTab }: ResourceFilterProps)
                 <Checkbox
                   id={`language-${language.replace(/\s+/g, '-').toLowerCase()}`}
                   defaultChecked={language === 'All'}
-                  className="border-ai-border bg-ai-dark-bg/40 shadow-none data-[state=checked]:bg-ai-violet data-[state=checked]:border-ai-violet data-[state=checked]:text-ai-text-primary"
+                  className="shadow-none"
                 />
                 <Label
                   htmlFor={`language-${language.replace(/\s+/g, '-').toLowerCase()}`}

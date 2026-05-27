@@ -22,7 +22,7 @@ export function GuideCard({
   return (
     <div className="group bg-ai-card-bg border border-ai-border rounded-lg p-6 hover:border-ai-cyan/50 transition-all duration-300 hover:shadow-lg hover:shadow-ai-cyan/20 flex flex-col">
       <div className="flex items-start gap-4 mb-4">
-        <div className="p-3 rounded-lg bg-ai-cyan/20 text-ai-cyan flex-shrink-0">
+        <div className="p-3 rounded-lg bg-ai-cyan/20 text-ai-cyan shrink-0">
           <BookOpen className="w-5 h-5" />
         </div>
         <div className="flex-1 min-w-0">
