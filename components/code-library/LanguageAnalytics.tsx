@@ -29,28 +29,47 @@ const recentSubmissions = [
 ];
 
 export function LanguageAnalytics() {
+  const totalDistribution = languageDistribution.reduce((sum, language) => sum + language.value, 0);
+
   return (
     <div className="w-80 bg-ai-card-bg border-l border-ai-border p-6 overflow-y-auto space-y-8">
       {/* Language Distribution Chart */}
       <div>
         <h3 className="text-lg font-bold text-ai-text-primary mb-4">Language Distribution</h3>
-        <ResponsiveContainer width="100%" height={180}>
-          <PieChart>
-            <Pie
-              data={languageDistribution}
-              cx="50%"
-              cy="50%"
-              innerRadius={45}
-              outerRadius={70}
-              paddingAngle={2}
-              dataKey="value"
-            >
-              {languageDistribution.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color} />
-              ))}
-            </Pie>
-          </PieChart>
-        </ResponsiveContainer>
+        <div className="relative">
+          <ResponsiveContainer width="100%" height={180}>
+            <PieChart>
+              <Pie
+                data={languageDistribution}
+                cx="50%"
+                cy="50%"
+                innerRadius={45}
+                outerRadius={70}
+                paddingAngle={2}
+                dataKey="value"
+              >
+                {languageDistribution.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
+          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+            <p className="text-xs text-ai-text-muted">Total</p>
+            <p className="text-lg font-bold text-ai-text-primary">{totalDistribution}%</p>
+          </div>
+        </div>
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          {languageDistribution.map((language) => (
+            <div key={language.name} className="flex items-center justify-between rounded-md bg-ai-dark-bg px-2 py-1">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: language.color }} />
+                <span className="text-xs text-ai-text-secondary truncate">{language.name}</span>
+              </div>
+              <span className="text-xs font-semibold text-ai-text-primary">{language.value}%</span>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Most Popular */}
@@ -66,7 +85,9 @@ export function LanguageAnalytics() {
                 <span className="text-sm font-medium text-ai-text-primary">
                   #{item.rank} {item.language}
                 </span>
-                <span className="text-xs text-ai-text-muted">{item.submissions}</span>
+                <span className="text-xs text-ai-text-muted">
+                  {item.submissions} ({item.percentage}%)
+                </span>
               </div>
               <div className="w-full h-2 bg-ai-dark-bg rounded-full overflow-hidden">
                 <div

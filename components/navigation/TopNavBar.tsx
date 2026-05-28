@@ -1,14 +1,34 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Search, Bell, ChevronDown, LogOut, User, Settings } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useTheme } from 'next-themes';
+import { Search, Bell, ChevronDown, LogOut, User, Settings, Moon, Sun } from 'lucide-react';
 import { SearchCommand } from './SearchCommand';
 
 export function TopNavBar() {
+  const router = useRouter();
   const [showSearch, setShowSearch] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+    } finally {
+      setShowUserMenu(false);
+      setShowNotifications(false);
+      router.push('/auth/login');
+      router.refresh();
+    }
+  };
 
   return (
     <>
@@ -32,6 +52,19 @@ export function TopNavBar() {
 
         {/* Right: Actions */}
         <div className="flex items-center gap-4 ml-6">
+          <button
+            onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
+            className="p-2 rounded-lg hover:bg-ai-card-bg transition-colors"
+            aria-label="Toggle theme"
+            title="Toggle theme"
+          >
+            {mounted && resolvedTheme === 'dark' ? (
+              <Sun className="w-5 h-5 text-ai-text-secondary" />
+            ) : (
+              <Moon className="w-5 h-5 text-ai-text-secondary" />
+            )}
+          </button>
+
           {/* Notifications */}
           <div className="relative">
             <button
@@ -101,7 +134,10 @@ export function TopNavBar() {
                     <Settings className="w-4 h-4" />
                     Settings
                   </Link>
-                  <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-300 hover:bg-red-500/10 rounded-lg transition-colors">
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-300 hover:bg-red-500/10 rounded-lg transition-colors"
+                  >
                     <LogOut className="w-4 h-4" />
                     Logout
                   </button>

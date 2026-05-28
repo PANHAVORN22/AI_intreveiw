@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
+import { Eye, EyeOff, Github, Lock, Mail } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -21,13 +21,37 @@ export default function LoginPage() {
     setError('');
     setIsLoading(true);
 
-    // Mock authentication - in production, this would call an API
-    if (email && password) {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      router.push('/dashboard');
-    } else {
+    if (!email || !password) {
       setError('Please fill in all fields');
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ email, password, rememberMe }),
+      });
+
+      const data = (await res.json().catch(() => null)) as
+        | { ok: true }
+        | { ok: false; error?: string }
+        | null;
+
+      if (!res.ok || !data || data.ok !== true) {
+        setError((data as { error?: string } | null)?.error ?? 'Login failed');
+        setIsLoading(false);
+        return;
+      }
+
+      router.push('/dashboard');
+      router.refresh();
+    } catch {
+      setError('Something went wrong. Please try again.');
       setIsLoading(false);
     }
   };
@@ -151,14 +175,19 @@ export default function LoginPage() {
             type="button"
             className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-ai-border bg-ai-card-bg/30 hover:bg-ai-card-bg/60 transition-colors text-ai-text-secondary font-medium text-sm"
           >
-            <span>🐙</span>
+            <Github className="h-4 w-4" />
             GitHub
           </button>
           <button
             type="button"
             className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-ai-border bg-ai-card-bg/30 hover:bg-ai-card-bg/60 transition-colors text-ai-text-secondary font-medium text-sm"
           >
-            <span>🔵</span>
+            <svg className="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="#EA4335" d="M12 10.2v3.9h5.5c-.2 1.2-.9 2.2-1.9 2.9v2.4h3.1c1.8-1.7 2.8-4.2 2.8-7.1 0-.7-.1-1.4-.2-2.1H12z" />
+              <path fill="#34A853" d="M12 21c2.5 0 4.6-.8 6.1-2.2L15 16.4c-.8.5-1.8.9-3 .9-2.3 0-4.2-1.6-4.9-3.7H3.9V16c1.5 3 4.6 5 8.1 5z" />
+              <path fill="#FBBC05" d="M7.1 13.6c-.2-.5-.3-1-.3-1.6s.1-1.1.3-1.6V8H3.9C3.3 9.2 3 10.6 3 12s.3 2.8.9 4l3.2-2.4z" />
+              <path fill="#4285F4" d="M12 6.8c1.3 0 2.5.5 3.4 1.3l2.6-2.6C16.6 4.2 14.5 3.3 12 3.3c-3.5 0-6.6 2-8.1 5l3.2 2.4c.7-2.1 2.6-3.9 4.9-3.9z" />
+            </svg>
             Google
           </button>
         </div>

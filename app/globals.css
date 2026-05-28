@@ -39,15 +39,15 @@
   --sidebar-ring: #111827;
   
   /* InterviewAI Custom Variables */
-  --ai-dark-bg: #0B0F19;
-  --ai-card-bg: #111827;
-  --ai-border: #1F2937;
+  --ai-dark-bg: #F8FAFC;
+  --ai-card-bg: #ffffff;
+  --ai-border: #E2E8F0;
   --ai-violet: #6366F1;
   --ai-cyan: #06B6D4;
-  --ai-text-primary: #ffffff;
-  --ai-text-secondary: #D1D5DB;
-  --ai-text-muted: #9CA3AF;
-  --ai-code-bg: #0B0F19;
+  --ai-text-primary: #0F172A;
+  --ai-text-secondary: #334155;
+  --ai-text-muted: #64748B;
+  --ai-code-bg: #F1F5F9;
 }
 
 .dark {
@@ -83,6 +83,15 @@
   --sidebar-accent-foreground: #ffffff;
   --sidebar-border: #1F2937;
   --sidebar-ring: #6366F1;
+  --ai-dark-bg: #0B0F19;
+  --ai-card-bg: #111827;
+  --ai-border: #1F2937;
+  --ai-violet: #6366F1;
+  --ai-cyan: #06B6D4;
+  --ai-text-primary: #ffffff;
+  --ai-text-secondary: #D1D5DB;
+  --ai-text-muted: #9CA3AF;
+  --ai-code-bg: #0B0F19;
 }
 
 @theme inline {
@@ -144,4 +153,21 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Improve readability for light mode where many components use dark-mode-tuned colors. */
+html:not(.dark) .text-red-300 {
+  color: #b91c1c;
+}
+
+html:not(.dark) .text-blue-300 {
+  color: #1d4ed8;
+}
+
+html:not(.dark) .text-green-300 {
+  color: #166534;
+}
+
+html:not(.dark) .text-gray-300 {
+  color: #374151;
 }
