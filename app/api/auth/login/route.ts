@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-
-const SESSION_COOKIE_NAME = 'interviewai_session';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -26,21 +25,18 @@ export async function POST(request: Request) {
     );
   }
 
-  const response = NextResponse.json({ ok: true });
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
 
-  const cookieOptions: Parameters<typeof response.cookies.set>[2] = {
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
-    path: '/',
-  };
-
-  if (rememberMe) {
-    cookieOptions.maxAge = 60 * 60 * 24 * 30; // 30 days
+  if (error) {
+    return NextResponse.json(
+      { ok: false, error: error.message },
+      { status: 401 },
+    );
   }
 
-  const sessionValue = `mock_${globalThis.crypto?.randomUUID?.() ?? Date.now().toString(36)}`;
-  response.cookies.set(SESSION_COOKIE_NAME, sessionValue, cookieOptions);
-
-  return response;
+  return NextResponse.json({ ok: true, rememberMe: Boolean(rememberMe) });
 }

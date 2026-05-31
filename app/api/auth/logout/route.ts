@@ -1,17 +1,16 @@
 import { NextResponse } from 'next/server';
-
-const SESSION_COOKIE_NAME = 'interviewai_session';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
 
 export async function POST() {
-  const response = NextResponse.json({ ok: true });
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.auth.signOut();
 
-  response.cookies.set(SESSION_COOKIE_NAME, '', {
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
-    path: '/',
-    maxAge: 0,
-  });
+  if (error) {
+    return NextResponse.json(
+      { ok: false, error: error.message },
+      { status: 400 },
+    );
+  }
 
-  return response;
+  return NextResponse.json({ ok: true });
 }

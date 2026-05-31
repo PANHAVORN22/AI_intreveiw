@@ -1,20 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Eye, EyeOff, Github, Lock, Mail } from 'lucide-react';
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const registered = searchParams.get('registered') === '1';
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,6 +74,14 @@ export default function LoginPage() {
           <h1 className="text-4xl font-bold text-ai-text-primary mb-3">Welcome Back</h1>
           <p className="text-ai-text-secondary text-lg">Sign in to conduct AI-powered interviews</p>
         </div>
+
+        {/* Error Message */}
+        {registered && (
+          <div className="mb-5 p-4 rounded-xl bg-green-500/10 border border-green-500/30 text-green-300 text-sm flex items-start gap-3">
+            <div className="w-5 h-5 mt-0.5 flex-shrink-0 text-green-400">✓</div>
+            <p>Your account is ready. Please sign in to continue.</p>
+          </div>
+        )}
 
         {/* Error Message */}
         {error && (
@@ -201,5 +211,19 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
+          Loading...
+        </div>
+      }
+    >
+      <LoginForm />
+    </Suspense>
   );
 }

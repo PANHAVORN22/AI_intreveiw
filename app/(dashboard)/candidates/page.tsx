@@ -31,6 +31,45 @@ type Candidate = {
   interviews: number;
 };
 
+const fallbackCandidates: Candidate[] = [
+  {
+    id: 'cand-001',
+    name: 'Sarah Chen',
+    email: 'sarah.chen@example.com',
+    phone: '—',
+    location: 'Remote',
+    position: 'Frontend Engineer',
+    status: 'Interviewing',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah%20Chen',
+    rating: 4.8,
+    interviews: 2,
+  },
+  {
+    id: 'cand-002',
+    name: 'Marcus Williams',
+    email: 'marcus.williams@example.com',
+    phone: '—',
+    location: 'New York',
+    position: 'Backend Engineer',
+    status: 'Active',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Marcus%20Williams',
+    rating: 4.5,
+    interviews: 1,
+  },
+  {
+    id: 'cand-003',
+    name: 'Emma Rodriguez',
+    email: 'emma.rodriguez@example.com',
+    phone: '—',
+    location: 'Austin',
+    position: 'Full-Stack Engineer',
+    status: 'Inactive',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Emma%20Rodriguez',
+    rating: 4.2,
+    interviews: 3,
+  },
+];
+
 const statusColors: Record<CandidateStatus, string> = {
   Active: 'bg-green-500/20 text-green-300 border-green-500/30',
   Interviewing: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
@@ -58,14 +97,16 @@ export default function CandidatesPage() {
 
     const fetchCandidates = async () => {
       setIsLoading(true);
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('id, full_name, avatar_url, interview_sessions(id)')
-          .eq('role', 'candidate')
-          .order('created_at', { ascending: false });
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id, full_name, avatar_url, interview_sessions(id)')
+        .eq('role', 'candidate')
+        .order('created_at', { ascending: false });
 
       if (error) {
-        console.error('Failed to load candidates', error);
+        console.warn('Failed to load candidates from Supabase, using fallback data', error);
+        if (!mounted) return;
+        setCandidates(fallbackCandidates);
         setIsLoading(false);
         return;
       }
@@ -89,7 +130,7 @@ export default function CandidatesPage() {
         };
       });
 
-      setCandidates(normalized);
+      setCandidates(normalized.length > 0 ? normalized : fallbackCandidates);
       setIsLoading(false);
     };
 

@@ -1,9 +1,9 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import { createServerClient } from '@supabase/ssr';
+import { getSupabaseAnonKey, getSupabaseUrl } from '@/lib/supabase/config';
 
-const SESSION_COOKIE_NAME = 'interviewai_session';
-
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Skip middleware for public/static files (e.g. /logo.png, /PLATFORM_GUIDE.md)
@@ -11,11 +11,32 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const session = request.cookies.get(SESSION_COOKIE_NAME)?.value;
+  let response = NextResponse.next({ request });
+
+  const supabase = createServerClient(getSupabaseUrl(), getSupabaseAnonKey(), {
+    cookies: {
+      getAll() {
+        return request.cookies.getAll();
+      },
+      setAll(cookiesToSet) {
+        cookiesToSet.forEach(({ name, value, options }) => {
+          request.cookies.set(name, value);
+          response.cookies.set(name, value, options);
+        });
+        response = NextResponse.next({ request });
+        cookiesToSet.forEach(({ name, value, options }) => {
+          response.cookies.set(name, value, options);
+        });
+      },
+    },
+  });
+
+  const { data: userData } = await supabase.auth.getUser();
+  const user = userData.user;
 
   // Allow auth pages; if already logged in, redirect away from them.
   if (pathname.startsWith('/auth')) {
-    if (session) {
+    if (user) {
       const url = request.nextUrl.clone();
       url.pathname = '/dashboard';
       url.search = '';
@@ -25,14 +46,14 @@ export function middleware(request: NextRequest) {
   }
 
   // Everything else requires a session.
-  if (!session) {
+  if (!user) {
     const url = request.nextUrl.clone();
     url.pathname = '/auth/login';
     url.search = '';
     return NextResponse.redirect(url);
   }
 
-  return NextResponse.next();
+  return response;
 }
 
 export const config = {

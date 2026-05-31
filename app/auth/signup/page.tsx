@@ -51,13 +51,19 @@ export default function SignupPage() {
       });
 
       const data = (await res.json().catch(() => null)) as
-        | { ok: true }
+        | { ok: true; needsConfirmation?: boolean }
         | { ok: false; error?: string }
         | null;
 
       if (!res.ok || !data || data.ok !== true) {
         setError((data as { error?: string } | null)?.error ?? 'Sign up failed');
         setIsLoading(false);
+        return;
+      }
+
+      if ('needsConfirmation' in data && data.needsConfirmation) {
+        router.push('/auth/login?registered=1');
+        router.refresh();
         return;
       }
 
