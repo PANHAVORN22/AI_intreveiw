@@ -1,6 +1,6 @@
 import type { CodeLanguage, EvaluationScores } from '@/types'
 import { buildEvaluationPrompt, buildInterviewerPrompt, buildProblemPrompt, buildReviewPrompt } from './prompts'
-import { getAnthropicClient } from './client'
+import { getAnthropicClient, getGeminiApiKey, getGeminiBearerToken, getGeminiModel, findCompatibleGeminiModel, normalizeGeminiModelName } from './client'
 
 export type ChatInput = {
   problemTitle: string
@@ -23,7 +23,6 @@ export type GeneratedEvaluation = {
 }
 
 export async function generateChatResponse(input: ChatInput & { message: string }) {
-  const client = getAnthropicClient()
   const prompt = buildInterviewerPrompt({
     problemTitle: input.problemTitle,
     difficulty: input.difficulty,
@@ -34,32 +33,164 @@ export async function generateChatResponse(input: ChatInput & { message: string 
     elapsedMinutes: input.elapsedMinutes ?? 0,
   })
 
+  const geminiApiKey = getGeminiApiKey()
+  const geminiBearerToken = getGeminiBearerToken()
+  if (geminiApiKey || geminiBearerToken) {
+    try {
+      return await generateGeminiChatResponse({
+        systemPrompt: prompt,
+        message: input.message,
+        transcript: input.transcript,
+        model: getGeminiModel(),
+        apiKey: geminiApiKey,
+        bearerToken: geminiBearerToken,
+      })
+    } catch (error) {
+      console.error('Gemini chat generation failed', error)
+    }
+  }
+
+  const client = getAnthropicClient()
   if (!client) {
     return buildFallbackChatResponse(input.message, input.currentCode, input.language)
   }
 
-  const response = await client.messages.create({
-    model: process.env.ANTHROPIC_MODEL ?? 'claude-3-5-sonnet-20240620',
-    max_tokens: 700,
-    temperature: 0.3,
-    system: prompt,
-    messages: [
-      {
-        role: 'user',
-        content: [
-          input.transcript ? `Conversation history:\n${input.transcript}` : null,
-          `Current candidate message:\n${input.message}`,
-        ]
-          .filter((value): value is string => Boolean(value))
-          .join('\n\n'),
-      },
-    ],
-  })
+  try {
+    const response = await client.messages.create({
+      model: process.env.ANTHROPIC_MODEL ?? 'claude-3-5-sonnet-20240620',
+      max_tokens: 700,
+      temperature: 0.3,
+      system: prompt,
+      messages: [
+        {
+          role: 'user',
+          content: [
+            input.transcript ? `Conversation history:\n${input.transcript}` : null,
+            `Current candidate message:\n${input.message}`,
+          ]
+            .filter((value): value is string => Boolean(value))
+            .join('\n\n'),
+        },
+      ],
+    })
 
-  return response.content
-    .map((block) => ('text' in block ? block.text : ''))
-    .join('')
-    .trim()
+    return response.content
+      .map((block) => ('text' in block ? block.text : ''))
+      .join('')
+      .trim()
+  } catch (error) {
+    console.error('Anthropic chat generation failed', error)
+    return buildFallbackChatResponse(input.message, input.currentCode, input.language)
+  }
+}
+
+async function generateGeminiChatResponse(input: {
+  systemPrompt: string
+  message: string
+  transcript?: string
+  model: string
+  apiKey: string | null
+  bearerToken: string | null
+}) {
+  const contents = [
+    input.transcript ? `Conversation history:\n${input.transcript}` : null,
+    `Current candidate message:\n${input.message}`,
+  ]
+    .filter((value): value is string => Boolean(value))
+    .join('\n\n')
+
+  const modelName = normalizeGeminiModelName(input.model) ?? getGeminiModel()
+
+  const response = await fetch(
+    input.bearerToken ? `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelName)}:generateContent` : `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelName)}:generateContent?key=${encodeURIComponent(input.apiKey ?? '')}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(input.bearerToken ? { Authorization: `Bearer ${input.bearerToken}` } : {}),
+      },
+      body: JSON.stringify({
+        systemInstruction: {
+          parts: [{ text: input.systemPrompt }],
+        },
+        contents: [
+          {
+            role: 'user',
+            parts: [{ text: contents }],
+          },
+        ],
+        generationConfig: {
+          temperature: 0.3,
+          maxOutputTokens: 700,
+        },
+      }),
+    },
+  )
+
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => '')
+    let errorMessage = `Gemini request failed with status ${response.status}`
+
+    if (errorText) {
+      try {
+        const errorJson = JSON.parse(errorText) as { error?: { message?: string } }
+        errorMessage = errorJson.error?.message ?? errorText
+      } catch {
+        errorMessage = errorText
+      }
+    }
+
+    // If the API reports the model is unsupported for this method, try to find a compatible model and retry once.
+    const unsupportedModelRegex = /not found for API version|not supported for generateContent|not found/i
+    if (unsupportedModelRegex.test(errorMessage)) {
+      try {
+        const alt = await findCompatibleGeminiModel()
+        const normalizedAlt = normalizeGeminiModelName(alt)
+        const normalizedInput = normalizeGeminiModelName(input.model)
+        if (normalizedAlt && normalizedAlt !== normalizedInput) {
+          console.warn(`Gemini model ${input.model} unsupported, retrying with ${normalizedAlt}`)
+          const retryUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(normalizedAlt)}:generateContent`
+          const retryResp = await fetch(
+            input.bearerToken ? retryUrl : `${retryUrl}?key=${encodeURIComponent(input.apiKey ?? '')}`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                ...(input.bearerToken ? { Authorization: `Bearer ${input.bearerToken}` } : {}),
+              },
+              body: JSON.stringify({
+                systemInstruction: { parts: [{ text: input.systemPrompt }] },
+                contents: [
+                  { role: 'user', parts: [{ text: contents }] },
+                ],
+                generationConfig: { temperature: 0.3, maxOutputTokens: 700 },
+              }),
+            },
+          )
+
+          if (retryResp.ok) {
+            const data = (await retryResp.json()) as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> }
+            const text = data.candidates?.[0]?.content?.parts?.map((part) => part.text ?? '').join('').trim()
+            return text || buildFallbackChatResponse(input.message, '', 'typescript')
+          }
+        }
+      } catch (err) {
+        console.error('Error attempting alt Gemini model', err)
+      }
+    }
+
+    throw new Error(errorMessage)
+  }
+
+  const data = (await response.json()) as {
+    candidates?: Array<{
+      content?: { parts?: Array<{ text?: string }> }
+    }>
+  }
+
+  const text = data.candidates?.[0]?.content?.parts?.map((part) => part.text ?? '').join('').trim()
+
+  return text || buildFallbackChatResponse(input.message, '', 'typescript')
 }
 
 export async function generateReviewResponse(input: ChatInput) {
