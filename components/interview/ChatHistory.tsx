@@ -6,7 +6,7 @@ interface ChatMessage {
   id: string;
   type: 'ai' | 'candidate';
   content: string;
-  timestamp: Date;
+  timestamp: Date | string;
   isTyping?: boolean;
 }
 

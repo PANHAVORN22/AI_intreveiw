@@ -11,8 +11,8 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] });
 const _jetBrainsMono = JetBrains_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'InterviewAI - Technical Interview Platform',
-  description: 'AI-powered technical interviews for engineering candidates',
+  title: 'InterviewAI - Technical Session Platform',
+  description: 'AI-powered technical sessions for engineering candidates',
   generator: 'AI-interview',
   viewport: {
     width: 'device-width',

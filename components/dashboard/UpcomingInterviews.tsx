@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { Calendar, Clock, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -19,7 +20,8 @@ interface UpcomingInterviewsProps {
   initialNow?: number;
 }
 
-export function UpcomingInterviews({ interviews = [], initialNow }: UpcomingInterviewsProps) {
+// Backwards-compatible: export new name `UpcomingSessions`.
+export function UpcomingSessions({ interviews = [], initialNow }: UpcomingInterviewsProps) {
   const [nowMs, setNowMs] = useState<number | null>(
     typeof initialNow === 'number' ? initialNow : null,
   );
@@ -66,7 +68,7 @@ export function UpcomingInterviews({ interviews = [], initialNow }: UpcomingInte
     <div className="bg-ai-card-bg border border-ai-border rounded-lg p-6 h-80 flex flex-col">
       <div className="flex items-center gap-2 mb-4">
         <Calendar className="w-5 h-5 text-ai-violet" />
-        <h2 className="text-lg font-bold text-ai-text-primary">Upcoming Interviews</h2>
+        <h2 className="text-lg font-bold text-ai-text-primary">Upcoming Sessions</h2>
       </div>
 
       <div className="flex-1 overflow-y-auto space-y-3 pr-2">
@@ -95,8 +97,10 @@ export function UpcomingInterviews({ interviews = [], initialNow }: UpcomingInte
                   </div>
                 </div>
               </div>
-              <Button size="sm" className="bg-ai-violet hover:bg-ai-violet/90">
-                <Play className="w-4 h-4" />
+              <Button asChild size="sm" className="bg-ai-violet hover:bg-ai-violet/90">
+                <Link href={`/interviewer/sessions/${interview.id}`} aria-label={`Open ${interview.candidateName} session`}>
+                  <Play className="w-4 h-4" />
+                </Link>
               </Button>
             </div>
 

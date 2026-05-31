@@ -13,20 +13,20 @@
 
 ## Platform Overview
 
-**InterviewAI** is an AI-powered technical interview platform designed to revolutionize how engineering teams and HR professionals conduct technical assessments. The platform combines:
+**InterviewAI** is an AI-powered technical session platform designed to revolutionize how engineering teams and HR professionals conduct technical assessments. The platform combines:
 
-- **Live Interview Environment**: Real-time coding interviews with AI-powered feedback
+-- **Live Session Environment**: Real-time coding sessions with AI-powered feedback
 - **Code Analysis**: Automatic evaluation of code quality, efficiency, and best practices
 - **Analytics Dashboard**: Comprehensive candidate performance metrics
-- **Resource Library**: Pre-built interview templates, guides, and code snippets
-- **Evaluation History**: Track and manage all past interviews and candidate assessments
+-- **Resource Library**: Pre-built session templates, guides, and code snippets
+ - **Evaluation History**: Track and manage all past sessions and candidate assessments
 
 ### Key Benefits:
-✅ **Standardized Evaluation**: Consistent interview experience for all candidates
-✅ **Real-Time Feedback**: AI provides instant insights during the interview
+✅ **Standardized Evaluation**: Consistent session experience for all candidates
+✅ **Real-Time Feedback**: AI provides instant insights during the session
 ✅ **Data-Driven Decisions**: Comprehensive analytics to help with hiring decisions
-✅ **Time Efficient**: Reduces interview preparation time significantly
-✅ **Scalable**: Support unlimited interviews and candidate tracking
+✅ **Time Efficient**: Reduces session preparation time significantly
+✅ **Scalable**: Support unlimited sessions and candidate tracking
 
 ---
 
@@ -64,7 +64,7 @@ Grants access to dashboard
 ✅ Account Setup Complete!
 ```
 
-**Signup Page URL**: `https://yourapp.com/auth/signup`
+**Signup Page URL**: `https://yourapp.com/register`
 
 ### Login Flow (Existing Users)
 ```
@@ -87,7 +87,7 @@ Redirects to dashboard
 ✅ User Logged In!
 ```
 
-**Login Page URL**: `https://yourapp.com/auth/login`
+**Login Page URL**: `https://yourapp.com/login`
 
 ### Forgot Password Flow
 ```
@@ -113,30 +113,30 @@ Redirects to login with success message
 ## User Roles & Permissions
 
 ### 1. **Interviewer** (Engineering Manager / Senior Engineer)
-**Responsibilities:**
-- Conduct technical interviews
+- **Responsibilities:**
+- Conduct technical sessions
 - Ask follow-up questions
 - Evaluate candidate performance
 - Review code submissions
 - Provide feedback
 
 **Access:**
-- Create and manage interview sessions
+- Create and manage sessions
 - View live code editor and terminal
 - Access analytics dashboards
-- Create custom interview templates
+- Create custom session templates
 - Manage candidate database
 
 ### 2. **HR Professional** (Recruiter / HR Manager)
 **Responsibilities:**
-- Schedule interviews
+- Schedule sessions
 - Track candidate pipeline
-- Generate interview reports
+- Generate session reports
 - Manage team settings
 - Monitor hiring metrics
 
 **Access:**
-- View all interviews and evaluations
+- View all sessions and evaluations
 - Filter and search candidates
 - Export evaluation data
 - Access performance trends
@@ -144,14 +144,14 @@ Redirects to login with success message
 
 ### 3. **Candidate** (Applicant)
 **Responsibilities:**
-- Participate in interviews
+- Participate in sessions
 - Solve coding challenges
 - Provide written responses
-- Accept interview invitations
+- Accept session invitations
 
 **Access:**
-- View interview schedule
-- Access live interview room
+- View session schedule
+- Access live session room
 - Submit code solutions
 - View past feedback (if enabled)
 
@@ -172,54 +172,54 @@ Redirects to login with success message
 
 ## Step-by-Step User Journey
 
-### 👤 User Journey #1: Interviewer Conducting an Interview
+### 👤 User Journey #1: Interviewer Conducting a Session
 
 #### Phase 1: Preparation (Day Before)
 **Step 1**: Log into dashboard
-- URL: `https://yourapp.com/dashboard`
-- Dashboard shows upcoming interviews
+-- URL: `https://yourapp.com/dashboard`
+-- Dashboard shows upcoming sessions
 
-**Step 2**: View interview details
-- Click on interview card showing candidate name, time, and difficulty
-- Review candidate background and previous interviews
+**Step 2**: View session details
+- Click on session card showing candidate name, time, and difficulty
+- Review candidate background and previous sessions
 
-**Step 3**: Prepare interview
-- Visit `/docs` to review interview best practices
-- Check `/resources/library` for relevant interview templates
+**Step 3**: Prepare session
+- Visit `/docs` to review session best practices
+- Check `/resources/library` for relevant session templates
 - Browse `/resources/code-library` for code examples
 
-#### Phase 2: Live Interview (Day Of)
-**Step 4**: Start the interview
+#### Phase 2: Live Session (Day Of)
+- **Step 4**: Start the session
 - Navigate to `/interview/room` 5 minutes before scheduled time
 - See WebSocket connection status at the top
 - Room shows: Chat, Code Editor, Terminal, and Real-time Metrics
 
-**Step 5**: Conduct the interview (Duration: 45-60 minutes)
+**Step 5**: Conduct the session (Duration: 45-60 minutes)
 ```
-Timeline of the interview:
+Timeline of the session:
 ├─ 0:00-5:00   → Introductions and question overview
 ├─ 5:00-50:00  → Candidate solves coding challenges
 │   ├─ Chat pane: AI and interviewer communicate with candidate
 │   ├─ Code pane: Candidate writes and modifies code
 │   └─ Terminal: Real-time test execution and results
 ├─ 50:00-60:00 → Follow-up questions and deep dive
-└─ 60:00       → Interview concludes
+└─ 60:00       → Session concludes
 ```
 
-**Step 6**: Use interview room features:
+- **Step 6**: Use session room features:
 - **Chat**: Ask clarifying questions, provide hints
 - **Code Editor**: See live code with syntax highlighting
 - **Terminal**: Review test output and execution results
 - **Metrics Tags**: Monitor real-time feedback (Engagement, Clarity, Problem-Solving)
 
-#### Phase 3: Post-Interview (Same Day)
-**Step 7**: Generate report
-- Interview ends and automatically generates analytics report
+- #### Phase 3: Post-Session (Same Day)
+- **Step 7**: Generate report
+- - Session ends and automatically generates analytics report
 - View `/analytics/dashboard` for detailed candidate evaluation
 
 **Step 8**: Access evaluation data
 - Navigate to `/history/evaluations`
-- View all interview records and scores
+- View all session records and scores
 - Export data for HR review
 
 **Step 9**: Update profile if needed
@@ -233,8 +233,8 @@ Timeline of the interview:
 
 #### Phase 1: Dashboard Overview
 **Step 1**: Log in and view dashboard
-- See statistics: total interviews, average score, completion rate, active candidates
-- View upcoming interviews for the week
+-- See statistics: total sessions, average score, completion rate, active candidates
+-- View upcoming sessions for the week
 - Check recent activity from team
 
 #### Phase 2: Candidate Management
@@ -243,13 +243,13 @@ Timeline of the interview:
 - See list of all candidates with:
   - Avatar and name
   - Email and contact info
-  - Interview count
-  - Average score (if interviewed)
-  - Status (Active, Interviewed, Inactive)
+   - Session count
+   - Average score (if evaluated)
+   - Status (Active, Evaluated, Inactive)
 
 **Step 3**: Filter and search
 - Search by candidate name or email
-- Filter by status (Active, Interviewed, Inactive)
+-- Filter by status (Active, Evaluated, Inactive)
 - Filter by department or role
 
 **Step 4**: Add new candidate
@@ -262,14 +262,14 @@ Timeline of the interview:
   - Resume link
 - Click "Create Candidate"
 
-#### Phase 3: Interview History & Reports
+#### Phase 3: Session History & Reports
 **Step 5**: View evaluation history
 - Navigate to `/history/evaluations`
-- See all past interviews with:
+   - See all past sessions with:
   - Candidate name and avatar
-  - Interview date and type
+   - Session date and type
   - Duration and score
-  - Interviewer name
+   - Interviewer name
   - Outcome (Passed/Failed/No Decision)
 
 **Step 6**: Filter evaluations
@@ -287,13 +287,13 @@ Timeline of the interview:
 **Step 8**: View performance trends
 - On dashboard, see 30-day performance chart showing:
   - Average candidate scores
-  - Interview completion rates
+   - Session completion rates
   - Platform adoption growth
 
 **Step 9**: Generate reports
 - Navigate to `/analytics/dashboard`
 - View individual candidate skill assessments
-- Review interview timeline with key events
+   - Review session timeline with key events
 - Access code review with quality feedback
 
 ---
@@ -335,7 +335,7 @@ Timeline of the interview:
 
 **Notifications Tab**:
 - Email notifications toggle
-- Interview reminders
+- Session reminders
 - Weekly summary reports
 - New feature announcements
 
@@ -362,12 +362,12 @@ Timeline of the interview:
    - Historical data for comparison
 
 2. **Time Savings**
-   - Pre-built interview templates reduce preparation
+   - Pre-built session templates reduce preparation
    - Code review automation
    - Detailed reports save writing time
 
 3. **Better Decision Making**
-   - Real-time metrics during interview
+   - Real-time metrics during session
    - Comprehensive skill assessments
    - Historical performance data
 
@@ -389,19 +389,19 @@ Timeline of the interview:
    - Export data for analysis
 
 3. **Compliance & Documentation**
-   - Complete interview records
+   - Complete session records
    - Timestamped evaluations
    - Audit trail for hiring decisions
 
 4. **Cost Efficiency**
    - Reduced time-to-hire
-   - Lower interview cancellation rates
+   - Lower session cancellation rates
    - Improved candidate experience
 
 ### 👨‍💻 For Candidates
 
 1. **Fair Evaluation**
-   - Consistent interview experience
+   - Consistent session experience
    - Clear evaluation criteria
    - Real-time feedback
 
@@ -421,11 +421,11 @@ Timeline of the interview:
 
 ### Dashboard (`/dashboard`)
 **What it shows:**
-- Total interviews conducted
+ - Total sessions conducted
 - Average candidate score
-- Interview completion rate
+- Session completion rate
 - Number of active candidates
-- Upcoming interview schedule (next 5)
+ - Upcoming session schedule (next 5)
 - Recent activity feed (last 10 events)
 - 30-day performance trend chart
 
@@ -441,7 +441,7 @@ Timeline of the interview:
 - List all candidates in the system
 - Search by name, email, or phone
 - Filter by status or department
-- View interview history per candidate
+ - View session history per candidate
 - Add new candidates
 
 **When to use:**
@@ -452,7 +452,7 @@ Timeline of the interview:
 
 ---
 
-### Interview Room (`/interview/room`)
+### Session Room (`/interview/room`)
 **What it includes:**
 - Live chat with AI and interviewer
 - Code editor with syntax highlighting
@@ -461,19 +461,19 @@ Timeline of the interview:
 - WebSocket connection status
 
 **When to use:**
-- During scheduled interviews
-- Approximately 45-60 minutes per interview
+- During scheduled sessions
+- Approximately 45-60 minutes per session
 - One per candidate assessment
 
 ---
 
 ### Evaluation History (`/history/evaluations`)
 **What it provides:**
-- Complete list of all interviews
-- Candidate name and interview ID
+- Complete list of all sessions
+- Candidate name and session ID
 - Date, type, duration, score
 - Interviewer name
-- Interview outcome
+- Session outcome
 - Export functionality
 
 **When to use:**
@@ -488,12 +488,12 @@ Timeline of the interview:
 **What it shows:**
 - Candidate profile with overall score
 - Skill matrix (radar chart of competencies)
-- Interview timeline with key events
+- Session timeline with key events
 - Code review with before/after comparison
 - AI-generated insights
 
 **When to use:**
-- Post-interview evaluation
+- Post-session evaluation
 - Detailed candidate assessment
 - Decision-making
 - Feedback to candidate
@@ -502,14 +502,14 @@ Timeline of the interview:
 
 ### Resource Library (`/resources/library`)
 **What it contains:**
-- Interview templates (6 categories)
+- Session templates (6 categories)
 - Best practice guides (4 guides)
 - Code snippets (3 snippets)
 - Filter by difficulty and language
 - Search functionality
 
 **When to use:**
-- Interview preparation
+- Session preparation
 - Onboarding new interviewers
 - Creating custom templates
 - Learning best practices
@@ -535,7 +535,7 @@ Timeline of the interview:
 ### Documentation (`/docs`)
 **What it includes:**
 - Getting Started guide
-- Interview Templates guide
+- Session Templates guide
 - API Reference documentation
 - FAQs and troubleshooting
 - Search across all docs
@@ -585,13 +585,13 @@ Timeline of the interview:
 
 ### 📋 For Interviewers
 
-1. **Before the Interview:**
+1. **Before the Session:**
    - Review candidate resume (48 hours before)
-   - Check previous interview results
+   - Check previous session results
    - Prepare problem statement in advance
    - Do a tech check 10 minutes early
 
-2. **During the Interview:**
+2. **During the Session:**
    - Start with small-talk (5 min) to ease candidate
    - Clearly explain the problem
    - Let candidate think before coding
@@ -599,9 +599,9 @@ Timeline of the interview:
    - Avoid giving answers, guide with hints
    - Monitor real-time metrics for engagement
 
-3. **After the Interview:**
+3. **After the Session:**
    - Complete evaluation within 1 hour
-   - Reference metrics from interview
+   - Reference metrics from session
    - Provide specific feedback examples
    - Document code quality observations
    - Submit assessment in system same day
@@ -609,10 +609,10 @@ Timeline of the interview:
 ### 📊 For HR Professionals
 
 1. **Candidate Management:**
-   - Update candidate status after each interview
+   - Update candidate status after each session
    - Keep contact information current
    - Document hiring stage progress
-   - Schedule interviews at least 3 days out
+   - Schedule sessions at least 3 days out
    - Send calendar invitations with platform link
 
 2. **Data Analysis:**
@@ -631,21 +631,21 @@ Timeline of the interview:
 
 ### 👨‍💻 For Candidates
 
-1. **Interview Preparation:**
-   - Confirm interview time and date
+1. **Session Preparation:**
+   - Confirm session time and date
    - Test internet connection beforehand
    - Use a quiet environment
    - Have pen and paper for notes
    - Arrive 5 minutes early
 
-2. **During Interview:**
+2. **During Session:**
    - Talk through your thought process
    - Ask for clarification if confused
    - Write clean, readable code
    - Test your solution thoroughly
    - Explain your optimization approach
 
-3. **Post-Interview:**
+3. **Post-Session:**
    - Thank the interviewer
    - Ask about next steps
    - Request feedback if available
@@ -670,13 +670,13 @@ A: Click "Forgot password?" on login page, enter email, follow reset link
 **Q: How do I add team members?**
 A: Go to Settings → Team members → Invite users
 
-**Q: Can I export interview data?**
+**Q: Can I export session data?**
 A: Yes! On `/history/evaluations` page, click "Export as CSV"
 
-**Q: How long do interviews usually take?**
-A: Standard interviews are 45-60 minutes total
+**Q: How long do sessions usually take?**
+A: Standard sessions are 45-60 minutes total
 
-**Q: Can I reschedule an interview?**
+**Q: Can I reschedule a session?**
 A: Yes, email the candidate with new time/link from dashboard
 
 ---
@@ -684,12 +684,12 @@ A: Yes, email the candidate with new time/link from dashboard
 ## Summary
 
 InterviewAI transforms technical hiring by providing:
-- **Standardized interviews** through templates and consistent evaluation
+-- **Standardized sessions** through templates and consistent evaluation
 - **Real-time insights** with AI feedback during live coding
 - **Data-driven decisions** through comprehensive analytics
 - **Time efficiency** with automated reports and metrics
 - **Better candidate experience** with professional, fair assessments
 
-Start with the dashboard, navigate to candidate management, schedule interviews, and use analytics to make hiring decisions. All features integrate seamlessly to streamline your technical recruitment process.
+Start with the dashboard, navigate to candidate management, schedule sessions, and use analytics to make hiring decisions. All features integrate seamlessly to streamline your technical recruitment process.
 
-**Happy interviewing! 🚀**
+**Happy sessions! 🚀**

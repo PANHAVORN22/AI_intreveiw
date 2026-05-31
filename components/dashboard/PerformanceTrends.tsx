@@ -1,6 +1,5 @@
 'use client';
 
-import { performanceTrends } from '@/lib/mock-data';
 import { TrendingUp } from 'lucide-react';
 import {
   LineChart,
@@ -13,7 +12,18 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-export function PerformanceTrends() {
+type PerformanceTrendPoint = {
+  date: string;
+  avgScore: number;
+  completionRate: number;
+  adoptionRate: number;
+};
+
+interface PerformanceTrendsProps {
+  data?: PerformanceTrendPoint[];
+}
+
+export function PerformanceTrends({ data = [] }: PerformanceTrendsProps) {
   return (
     <div className="bg-ai-card-bg border border-ai-border rounded-lg p-6">
       <div className="flex items-center gap-2 mb-6">
@@ -22,7 +32,7 @@ export function PerformanceTrends() {
       </div>
 
       <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={performanceTrends} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
+        <LineChart data={data} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#1F2937" />
           <XAxis
             dataKey="date"

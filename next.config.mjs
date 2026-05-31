@@ -1,3 +1,5 @@
+import path from 'path'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
@@ -5,6 +7,10 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
+  },
+  // Ensure Turbopack resolves the workspace root correctly
+  turbopack: {
+    root: path.resolve(process.cwd()),
   },
 }
 

@@ -27,7 +27,7 @@ export function SearchCommand({ onClose }: SearchCommandProps) {
       setResults([
         {
           type: 'recent',
-          label: 'Recent Interviews',
+          label: 'Recent Sessions',
           items: [
             { id: 1, title: 'Alex Johnson - Frontend', href: '/analytics/dashboard' },
             { id: 2, title: 'Emma Rodriguez - Backend', href: '/analytics/dashboard' },
@@ -40,11 +40,11 @@ export function SearchCommand({ onClose }: SearchCommandProps) {
     // Mock search results
     const searchResults = [
       {
-        type: 'interviews',
-        label: 'Interviews',
+        type: 'sessions',
+        label: 'Sessions',
         items: [
-          { id: 1, title: 'Sarah Chen - Frontend Interview', href: '/interview/room' },
-          { id: 2, title: 'Marcus Williams - Backend Interview', href: '/interview/room' },
+          { id: 1, title: 'Sarah Chen - Frontend Session', href: '/interview/room' },
+          { id: 2, title: 'Marcus Williams - Backend Session', href: '/interview/room' },
         ],
       },
       {
@@ -74,10 +74,10 @@ export function SearchCommand({ onClose }: SearchCommandProps) {
         {/* Search Input */}
         <div className="flex items-center gap-3 px-4 py-4 border-b border-ai-border">
           <Search className="w-5 h-5 text-ai-text-muted" />
-          <input
+            <input
             autoFocus
             type="text"
-            placeholder="Search interviews, candidates, resources..."
+            placeholder="Search sessions, candidates, resources..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="flex-1 bg-transparent text-ai-text-primary placeholder-ai-text-muted outline-none text-sm"

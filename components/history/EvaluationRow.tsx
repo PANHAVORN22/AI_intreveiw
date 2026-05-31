@@ -74,7 +74,7 @@ export function EvaluationRow({
         </div>
       </td>
 
-      {/* Interview ID */}
+      {/* Session ID */}
       <td className="px-6 py-4 text-sm">
         <code className="text-ai-text-secondary font-mono">{interviewId}</code>
       </td>

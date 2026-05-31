@@ -8,7 +8,7 @@ export const interviewData = {
     {
       id: '1',
       type: 'ai',
-      content: 'Hello! Welcome to your technical interview. Today we\'ll be working on a coding challenge.',
+      content: 'Hello! Welcome to your technical session. Today we\'ll be working on a coding challenge.',
       timestamp: new Date(Date.now() - 5 * 60000),
       isTyping: false,
     },
@@ -85,6 +85,9 @@ All tests passed! (4/4)`,
   ],
 };
 
+// Backwards-compatible alias for session-based naming
+export const sessionData = interviewData;
+
 export const analyticsData = {
   candidateProfile: {
     name: 'Alex Johnson',
@@ -101,7 +104,7 @@ export const analyticsData = {
   timeline: [
     {
       time: '00:00',
-      event: 'Interview Room Joined',
+      event: 'Session Room Joined',
       type: 'info',
       icon: 'log-in',
     },
@@ -199,6 +202,7 @@ export const upcomingInterviews = [
     candidateName: 'Sarah Chen',
     candidateAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah',
     interviewType: 'Frontend',
+    sessionType: 'Frontend',
     scheduledTime: new Date(Date.now() + 2 * 60 * 60 * 1000),
     difficulty: 4,
     estimatedDuration: 60,
@@ -208,6 +212,7 @@ export const upcomingInterviews = [
     candidateName: 'Marcus Williams',
     candidateAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Marcus',
     interviewType: 'Backend',
+    sessionType: 'Backend',
     scheduledTime: new Date(Date.now() + 4 * 60 * 60 * 1000),
     difficulty: 5,
     estimatedDuration: 60,
@@ -217,6 +222,7 @@ export const upcomingInterviews = [
     candidateName: 'Emma Rodriguez',
     candidateAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Emma',
     interviewType: 'Full-Stack',
+    sessionType: 'Full-Stack',
     scheduledTime: new Date(Date.now() + 6 * 60 * 60 * 1000),
     difficulty: 3,
     estimatedDuration: 90,
@@ -226,6 +232,7 @@ export const upcomingInterviews = [
     candidateName: 'James Park',
     candidateAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=James',
     interviewType: 'Frontend',
+    sessionType: 'Frontend',
     scheduledTime: new Date(Date.now() + 8 * 60 * 60 * 1000),
     difficulty: 4,
     estimatedDuration: 60,
@@ -235,18 +242,22 @@ export const upcomingInterviews = [
     candidateName: 'Olivia Bennett',
     candidateAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Olivia',
     interviewType: 'Backend',
+    sessionType: 'Backend',
     scheduledTime: new Date(Date.now() + 10 * 60 * 60 * 1000),
     difficulty: 4,
     estimatedDuration: 60,
   },
 ];
 
+// Backwards-compatible alias: code may refer to upcomingSessions in new model
+export const upcomingSessions = upcomingInterviews;
+
 export const activityFeed = [
   {
     id: 'ACT-001',
     type: 'interview_completed',
-    title: 'Interview Completed',
-    description: 'Alex Johnson completed Frontend interview',
+    title: 'Session Completed',
+    description: 'Alex Johnson completed Frontend session',
     timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
     icon: 'check-circle',
   },
@@ -277,8 +288,8 @@ export const activityFeed = [
   {
     id: 'ACT-005',
     type: 'interview_completed',
-    title: 'Interview Completed',
-    description: 'Emma Rodriguez completed Backend interview',
+    title: 'Session Completed',
+    description: 'Emma Rodriguez completed Backend session',
     timestamp: new Date(Date.now() - 10 * 60 * 60 * 1000),
     icon: 'check-circle',
   },
@@ -309,7 +320,7 @@ export const resourceTemplates = [
   {
     id: 'TMP-001',
     title: 'Full-Stack Mastery',
-    description: 'Complete interview covering frontend, backend, and database design',
+    description: 'Complete session covering frontend, backend, and database design',
     languages: ['TypeScript', 'Node.js', 'React'],
     rating: 4.8,
     difficulty: 'Hard',
@@ -327,7 +338,7 @@ export const resourceTemplates = [
   {
     id: 'TMP-003',
     title: 'System Design Pro',
-    description: 'Interview covering scalability, databases, and architecture decisions',
+    description: 'Session covering scalability, databases, and architecture decisions',
     languages: ['Node.js', 'PostgreSQL', 'Redis'],
     rating: 4.9,
     difficulty: 'Hard',
@@ -336,7 +347,7 @@ export const resourceTemplates = [
   {
     id: 'TMP-004',
     title: 'Data Structures & Algorithms',
-    description: 'Classic coding interview with algorithm problems and optimization',
+    description: 'Classic coding session with algorithm problems and optimization',
     languages: ['Python', 'JavaScript', 'Java'],
     rating: 4.7,
     difficulty: 'Medium',
@@ -365,17 +376,17 @@ export const resourceTemplates = [
 export const guides = [
   {
     id: 'GUIDE-001',
-    title: 'Behavioral Interviewing Best Practices',
-    author: 'HR Team',
-    description: 'Guidelines for conducting effective behavioral interviews',
+    title: 'Behavioral Session Best Practices',
+    author: 'People Ops',
+    description: 'Best practices for conducting fair and consistent behavioral sessions',
     readTime: 8,
     views: 1242,
   },
   {
     id: 'GUIDE-002',
     title: 'Technical Assessment Framework',
-    author: 'Engineering Leads',
-    description: 'How to evaluate technical skills across different levels',
+    author: 'Engineering',
+    description: 'A framework for designing and scoring technical sessions',
     readTime: 12,
     views: 856,
   },
@@ -389,13 +400,16 @@ export const guides = [
   },
   {
     id: 'GUIDE-004',
-    title: 'Avoiding Common Bias in Interviews',
+    title: 'Avoiding Common Bias in Sessions',
     author: 'Diversity & Inclusion',
-    description: 'Research-backed strategies for fair and inclusive interviewing',
+    description: 'Research-backed strategies for fair and inclusive sessions',
     readTime: 10,
     views: 1856,
   },
 ];
+
+// Backwards-compatible alias for guides referencing sessions
+export const sessionGuides = guides;
 
 export const codeSnippets = [
   {

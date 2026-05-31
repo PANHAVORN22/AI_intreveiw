@@ -27,10 +27,10 @@ const typeColors = {
   error: 'bg-red-500/20 text-red-400',
 };
 
-export function InterviewTimeline({ events }: InterviewTimelineProps) {
+export function SessionTimeline({ events }: InterviewTimelineProps) {
   return (
     <div className="rounded-lg border border-ai-border bg-ai-card-bg p-6">
-      <h3 className="text-lg font-semibold text-ai-text-primary mb-6">Interview Timeline</h3>
+      <h3 className="text-lg font-semibold text-ai-text-primary mb-6">Session Timeline</h3>
       <div className="space-y-4">
         {events.map((event, idx) => (
           <div key={idx} className="flex gap-4">
