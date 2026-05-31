@@ -4,7 +4,6 @@ import { SkillMatrix } from '@/components/analytics/SkillMatrix';
 import { SessionTimeline } from '@/components/analytics/InterviewTimeline';
 import { CodeReview } from '@/components/analytics/CodeReview';
 import { Button } from '@/components/ui/button';
-import { analyticsData } from '@/lib/mock-data';
 import { Download, Share2 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -29,9 +28,27 @@ type CodeReviewSentiment = {
 };
 
 export default function AnalyticsDashboard() {
-  const timeline: TimelineEvent[] = analyticsData.timeline;
-  const insights: CodeReviewInsight[] = analyticsData.codeReview.insights;
-  const sentiment: CodeReviewSentiment = analyticsData.codeReview.sentiment;
+  const timeline: TimelineEvent[] = [];
+  const insights: CodeReviewInsight[] = [];
+  const sentiment: CodeReviewSentiment = {
+    engagement: 'No data yet',
+    clarity: 'No data yet',
+    problemSolving: 'No data yet',
+  };
+
+  const candidateProfile = {
+    name: 'Candidate analytics unavailable',
+    id: 'N/A',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=ai-interview',
+    score: 0,
+  };
+
+  const skillMatrix = {
+    dataStructures: 0,
+    systemDesign: 0,
+    codeQuality: 0,
+    communication: 0,
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground p-8">
@@ -41,18 +58,18 @@ export default function AnalyticsDashboard() {
           <div className="flex items-center gap-4">
             <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-ai-card-bg border border-ai-border">
               <Image
-                src={analyticsData.candidateProfile.avatar}
-                alt={analyticsData.candidateProfile.name}
+                src={candidateProfile.avatar}
+                alt={candidateProfile.name}
                 fill
                 className="object-cover"
               />
             </div>
             <div>
               <h1 className="text-2xl font-bold text-ai-text-primary">
-                {analyticsData.candidateProfile.name}
+                {candidateProfile.name}
               </h1>
               <p className="text-sm text-ai-text-muted">
-                ID: {analyticsData.candidateProfile.id}
+                ID: {candidateProfile.id}
               </p>
             </div>
           </div>
@@ -63,15 +80,10 @@ export default function AnalyticsDashboard() {
               <div
                 className="text-4xl font-bold rounded-lg p-4 text-white"
                 style={{
-                  backgroundColor:
-                    analyticsData.candidateProfile.score >= 80
-                      ? '#10B981'
-                      : analyticsData.candidateProfile.score >= 60
-                        ? '#F59E0B'
-                        : '#EF4444',
+                  backgroundColor: '#475569',
                 }}
               >
-                {analyticsData.candidateProfile.score}
+                {candidateProfile.score}
               </div>
               <p className="text-xs text-ai-text-muted mt-2">/100</p>
             </div>
@@ -97,12 +109,12 @@ export default function AnalyticsDashboard() {
 
       {/* Main Grid */}
       <div className="grid grid-cols-3 gap-6">
-        <SkillMatrix skills={analyticsData.skillMatrix} />
+        <SkillMatrix skills={skillMatrix} />
         <SessionTimeline events={timeline} />
         <div className="col-span-3">
           <CodeReview
-            original={analyticsData.codeReview.original}
-            optimized={analyticsData.codeReview.optimized}
+            original={'No code review data yet.'}
+            optimized={'No optimized solution available yet.'}
             insights={insights}
             sentiment={sentiment}
           />

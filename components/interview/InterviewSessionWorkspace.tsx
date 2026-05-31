@@ -8,7 +8,6 @@ import { MetricsTag } from '@/components/interview/MetricsTag';
 import { StatusBanner } from '@/components/interview/StatusBanner';
 import { TerminalOutput } from '@/components/interview/TerminalOutput';
 import { createSupabaseBrowserClient } from '@/lib/supabase/client';
-import { interviewData as mockInterview } from '@/lib/mock-data';
 
 type SessionWorkspaceProps = {
   sessionId?: string;
@@ -36,11 +35,11 @@ export function SessionWorkspace({
   interviewCode,
   candidateName = 'Candidate',
   interviewType = 'Technical',
-  initialCode = mockInterview.currentCode,
-  initialLanguage = mockInterview.language,
-  initialOutput = mockInterview.terminalOutput,
-  initialMessages = mockInterview.chatMessages as ChatPanelMessage[],
-  files = mockInterview.codeFiles,
+  initialCode = '',
+  initialLanguage = 'typescript',
+  initialOutput = '',
+  initialMessages = [],
+  files = [],
   mode = 'interviewer',
 }: SessionWorkspaceProps) {
   const [code, setCode] = useState(initialCode);
@@ -136,15 +135,8 @@ export function SessionWorkspace({
 
           <div className="flex-1 border-t border-ai-border bg-ai-card-bg p-4 overflow-auto">
             <p className="text-xs font-semibold text-ai-text-muted mb-3">Live Feedback</p>
-            <div className="space-y-2">
-              {mockInterview.metrics.map((metric) => (
-                <MetricsTag
-                  key={metric.label}
-                  label={metric.label}
-                  value={metric.value}
-                  badge={metric.badge as 'good' | 'excellent'}
-                />
-              ))}
+            <div className="rounded-lg border border-dashed border-ai-border p-4 text-sm text-ai-text-muted">
+              Live metrics will appear once the session produces scoring data.
             </div>
           </div>
         </div>

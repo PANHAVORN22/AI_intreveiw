@@ -1,7 +1,6 @@
 import { notFound, redirect } from 'next/navigation'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { SessionWorkspace } from '@/components/interview/InterviewSessionWorkspace'
-import { interviewData as mockInterview } from '@/lib/mock-data'
 import type { ChatPanelMessage } from '@/components/interview/ChatPanel'
 
 type CandidateInfo = {
@@ -92,10 +91,6 @@ export default async function InterviewRoomPage({ params }: RoomPageProps) {
     content: message.content,
     timestamp: message.created_at,
   }))
-  const fallbackMessages = (mockInterview.chatMessages as ChatPanelMessage[]).map((message) => ({
-    ...message,
-    timestamp: message.timestamp instanceof Date ? message.timestamp.toISOString() : message.timestamp,
-  }))
   const submissions = (submissionsData ?? []) as SubmissionRow[]
   const latestSubmission = submissions[0]
 
@@ -105,11 +100,11 @@ export default async function InterviewRoomPage({ params }: RoomPageProps) {
       interviewCode={session.room_code}
       candidateName={candidate?.full_name ?? 'Candidate'}
       interviewType={problem?.title ?? 'Technical'}
-      initialCode={latestSubmission?.code ?? mockInterview.currentCode}
-      initialLanguage={latestSubmission?.language ?? mockInterview.language}
+      initialCode={latestSubmission?.code ?? ''}
+      initialLanguage={latestSubmission?.language ?? 'typescript'}
       initialOutput={latestSubmission ? [latestSubmission.stdout, latestSubmission.stderr].filter(Boolean).join('\n') : ''}
-      initialMessages={messages.length > 0 ? messages : fallbackMessages}
-      files={mockInterview.codeFiles}
+      initialMessages={messages}
+      files={[]}
       mode="candidate"
     />
   )

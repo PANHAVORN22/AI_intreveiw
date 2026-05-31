@@ -1,7 +1,6 @@
 import { notFound, redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { SessionWorkspace } from '@/components/interview/InterviewSessionWorkspace';
-import { interviewData as mockInterview } from '@/lib/mock-data';
 import type { ChatPanelMessage } from '@/components/interview/ChatPanel';
 
 type CandidateInfo = {
@@ -84,27 +83,18 @@ export default async function InterviewerSessionPage({ params }: SessionPageProp
     timestamp: message.created_at,
     isTyping: message.is_typing ?? false,
   }));
-  const fallbackMessages = (mockInterview.chatMessages as ChatPanelMessage[]).map((message) => ({
-    ...message,
-    timestamp:
-      message.timestamp instanceof Date ? message.timestamp.toISOString() : message.timestamp,
-  }));
 
   return (
     <SessionWorkspace
       sessionId={interview.id}
-        interviewCode={interview.room_code}
-        candidateName={candidate?.full_name ?? 'Candidate'}
-        interviewType={null}
-      initialCode={latestSubmission?.source_code ?? mockInterview.currentCode}
-      initialLanguage={latestSubmission?.language ?? interview.language ?? mockInterview.language}
+      interviewCode={interview.room_code}
+      candidateName={candidate?.full_name ?? 'Candidate'}
+      interviewType={null}
+      initialCode={latestSubmission?.source_code ?? ''}
+      initialLanguage={latestSubmission?.language ?? interview.language ?? 'typescript'}
       initialOutput={latestSubmission?.test_output ?? ''}
-      initialMessages={messages.length > 0 ? messages : fallbackMessages}
-      files={
-        submissions.length > 0
-          ? submissions.map((submission, index) => ({ name: submission.file_name, active: index === 0 }))
-          : mockInterview.codeFiles
-      }
+      initialMessages={messages}
+      files={submissions.map((submission, index) => ({ name: submission.file_name, active: index === 0 }))}
       mode="interviewer"
     />
   );

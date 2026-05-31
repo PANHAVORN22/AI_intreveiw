@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { resourceTemplates, guides, codeSnippets } from '@/lib/mock-data';
 import { TemplateCard } from '@/components/resources/TemplateCard';
 import { GuideCard } from '@/components/resources/GuideCard';
 import { SnippetCard } from '@/components/resources/SnippetCard';
@@ -10,6 +9,9 @@ import { BookOpen } from 'lucide-react';
 
 export default function ResourceLibraryPage() {
   const [currentTab, setCurrentTab] = useState('All');
+  const resourceTemplates: never[] = [];
+  const guides: never[] = [];
+  const codeSnippets: never[] = [];
 
   return (
     <div className="flex h-full">
@@ -39,12 +41,8 @@ export default function ResourceLibraryPage() {
             {/* Row 1: Large Templates */}
             <div>
               <h2 className="text-lg font-bold text-ai-text-primary mb-4">Featured Templates</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-                {resourceTemplates.slice(0, 2).map((template) => (
-                  <div key={template.id} style={{ gridColumn: 'span 1' }}>
-                    <TemplateCard {...template} />
-                  </div>
-                ))}
+              <div className="rounded-lg border border-dashed border-ai-border p-6 text-sm text-ai-text-muted">
+                No resource templates have been loaded yet.
               </div>
             </div>
 
@@ -53,18 +51,16 @@ export default function ResourceLibraryPage() {
               {/* Guides Section - 1 column */}
               <div className="lg:col-span-1 space-y-6">
                 <h2 className="text-lg font-bold text-ai-text-primary">Guides & Articles</h2>
-                {guides.slice(0, 2).map((guide) => (
-                  <GuideCard key={guide.id} {...guide} />
-                ))}
+                <div className="rounded-lg border border-dashed border-ai-border p-6 text-sm text-ai-text-muted">
+                  No guides available yet.
+                </div>
               </div>
 
               {/* More Templates - 2 columns */}
               <div className="lg:col-span-2 space-y-6">
                 <h2 className="text-lg font-bold text-ai-text-primary">More Templates</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {resourceTemplates.slice(2, 4).map((template) => (
-                    <TemplateCard key={template.id} {...template} />
-                  ))}
+                <div className="rounded-lg border border-dashed border-ai-border p-6 text-sm text-ai-text-muted">
+                  More templates will appear here once the library is connected.
                 </div>
               </div>
             </div>
@@ -72,10 +68,8 @@ export default function ResourceLibraryPage() {
             {/* Row 3: Code Snippets Grid */}
             <div>
               <h2 className="text-lg font-bold text-ai-text-primary mb-4">Code Snippets</h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {codeSnippets.map((snippet) => (
-                  <SnippetCard key={snippet.id} {...snippet} />
-                ))}
+              <div className="rounded-lg border border-dashed border-ai-border p-6 text-sm text-ai-text-muted">
+                No snippets loaded yet.
               </div>
             </div>
 
@@ -84,18 +78,16 @@ export default function ResourceLibraryPage() {
               {/* More guides */}
               <div className="space-y-6">
                 <h2 className="text-lg font-bold text-ai-text-primary">More Guides</h2>
-                {guides.slice(2, 4).map((guide) => (
-                  <GuideCard key={guide.id} {...guide} />
-                ))}
+                <div className="rounded-lg border border-dashed border-ai-border p-6 text-sm text-ai-text-muted">
+                  Additional guides will appear here once available.
+                </div>
               </div>
 
               {/* Last templates */}
               <div className="lg:col-span-2 space-y-6">
                 <h2 className="text-lg font-bold text-ai-text-primary">Additional Resources</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {resourceTemplates.slice(4, 6).map((template) => (
-                    <TemplateCard key={template.id} {...template} />
-                  ))}
+                <div className="rounded-lg border border-dashed border-ai-border p-6 text-sm text-ai-text-muted">
+                  Additional resources will show up here when loaded.
                 </div>
               </div>
             </div>

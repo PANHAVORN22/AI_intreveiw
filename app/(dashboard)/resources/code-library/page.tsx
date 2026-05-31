@@ -1,20 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { codeSnippets } from '@/lib/mock-data';
 import { CodePreview } from '@/components/code-library/CodePreview';
 import { LanguageAnalytics } from '@/components/code-library/LanguageAnalytics';
 import { Code2 } from 'lucide-react';
 
 export default function CodeLibraryPage() {
   const [selectedLanguage, setSelectedLanguage] = useState('All');
-
-  const languages = ['All', ...new Set(codeSnippets.map((s) => s.language))];
-
-  const filteredSnippets =
-    selectedLanguage === 'All'
-      ? codeSnippets
-      : codeSnippets.filter((s) => s.language === selectedLanguage);
+  const languages = ['All'];
+  const filteredSnippets: never[] = [];
 
   return (
     <div className="flex h-full">
@@ -55,16 +49,11 @@ export default function CodeLibraryPage() {
 
           {/* Code Previews Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {filteredSnippets.map((snippet) => (
-              <CodePreview key={snippet.id} {...snippet} />
-            ))}
+            <div className="rounded-lg border border-dashed border-ai-border p-6 text-sm text-ai-text-muted">
+              No code snippets have been loaded yet.
+            </div>
           </div>
 
-          {filteredSnippets.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-ai-text-muted">No code snippets found for the selected language.</p>
-            </div>
-          )}
         </div>
       </div>
 
